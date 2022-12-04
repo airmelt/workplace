@@ -12,6 +12,7 @@
 import sys
 import time
 from collections import deque
+import html
 
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -41,26 +42,50 @@ def question_content() -> str:
     """
     global img_idx
     result = deque()
-    example_flag = True
+    example_flag = False
+    example_title_flag = True
+    hint_flag = False
     question = browser.find_element(By.XPATH, '//*[@id="question-detail-main-tabs"]/div[2]/div/div[2]/div/div')
     question_list = question.find_elements(By.XPATH, ".//p | .//pre | .//ul | .//img")
     for item in question_list:
         if item.tag_name == 'img':
-            html = '![' + question_idx + '-' + str(img_idx) + '](' + item.get_attribute('src') + ')' + \
-                   new_line
+            img = '![' + question_idx + '-' + str(img_idx) + '](' + item.get_attribute('src') + ')' + \
+                  new_line
             img_idx += 1
-            result.append(html + new_line)
+            result.append(img + new_line)
+        elif item.tag_name == 'ul':
+            for line in item.find_elements(By.TAG_NAME, 'li'):
+                text = '- ' + html.unescape(line.get_attribute('innerHTML')) \
+                    .replace('<code>', '').replace('</code>', '').replace('<sup>', ' ^ ').replace('</sup>', '')
+                result.append(text + new_line)
+            result[-1] += new_line
         else:
-            text = item.text.strip()
+            if item.find_elements(By.TAG_NAME, 'code'):
+                text = html.unescape(item.get_attribute('innerHTML')) \
+                    .replace('<code>', '`').replace('</code>', '`').replace('<sup>', '^').replace('</sup>', '') \
+                    .replace('<strong>', '__').replace('</strong>', '__') \
+                    .replace('<em> ', ' _').replace(' </em>', '_ ') \
+                    .replace('<em>', '_').replace('</em>', '_').replace('^', ' ^ ')
+            else:
+                text = item.text.strip()
             if text.find('Constraints') != -1 or text.find('提示') != -1:
                 text = '__' + text + '__'
-            if example_flag:
-                if text.find('Example') != -1:
+                hint_flag = False
+            if text.find('Example') != -1:
+                if example_title_flag:
                     text = '__Example:__' + new_line + new_line + text
-                    example_flag = False
-                if text.find('示例') != -1:
+                hint_flag = True
+                example_flag = True
+                example_title_flag = False
+            elif text.find('示例') != -1:
+                if example_title_flag:
                     text = '__示例:__' + new_line + new_line + text
-                    example_flag = False
+                hint_flag = True
+                example_flag = True
+                example_title_flag = False
+            elif example_flag and hint_flag:
+                text = '```text' + new_line + text + new_line + '```'
+                example_flag = False
             if not text or text[0] == ' ':
                 continue
             result.append(text + new_line + new_line)
@@ -90,7 +115,7 @@ chinese_content = question_content()
 
 def code_content(language: str) -> str:
     """
-    
+
     :param language: type of language
     :return: code of language
     """
@@ -107,7 +132,7 @@ def code_content(language: str) -> str:
     time.sleep(1)
     
     # find code area
-    code = WebDriverWait(browser, 5, 0.5).\
+    code = WebDriverWait(browser, 5, 0.5). \
         until(
         expected_conditions.
         visibility_of_element_located(
