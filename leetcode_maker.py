@@ -17,6 +17,7 @@ import html
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -24,7 +25,7 @@ import pyperclip
 
 # Control the browser
 options = webdriver.EdgeOptions()
-options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+options.add_experimental_option('debuggerAddress', '127.0.0.1:9222')
 browser = webdriver.Edge(options=options)
 title = browser.title
 question_idx = title.split(r'.')[0]
@@ -35,9 +36,24 @@ description_button.click()
 time.sleep(1)
 
 
-def question_content() -> str:
+def transfer_html(element: WebElement) -> str:
     """
     
+    :param element: web element with text
+    :return: transferred text
+    """
+    return html.unescape(element.get_attribute('innerHTML')) \
+        .replace('<code>', '`').replace('</code>', '`') \
+        .replace('<sub>', '').replace('</sub>', '') \
+        .replace('<sup>', '^').replace('</sup>', '') \
+        .replace('<strong>', '__').replace('</strong>', '__') \
+        .replace('<em> ', ' _').replace(' </em>', '_ ') \
+        .replace('<em>', '_').replace('</em>', '_').replace('^', ' ^ ')
+
+
+def question_content() -> str:
+    """
+
     :return: question description
     """
     global img_idx
@@ -46,7 +62,8 @@ def question_content() -> str:
     example_title_flag = True
     hint_flag = False
     question = browser.find_element(By.XPATH, '//*[@id="question-detail-main-tabs"]/div[2]/div/div[2]/div/div')
-    question_list = question.find_elements(By.XPATH, ".//p | .//pre | .//ul | .//img")
+    question_list = question.find_elements(By.XPATH, './/p | .//pre | .//ul | .//img')
+    li_dash = '- '
     for item in question_list:
         if item.tag_name == 'img':
             img = '![' + question_idx + '-' + str(img_idx) + '](' + item.get_attribute('src') + ')' + \
@@ -55,17 +72,12 @@ def question_content() -> str:
             result.append(img + new_line)
         elif item.tag_name == 'ul':
             for line in item.find_elements(By.TAG_NAME, 'li'):
-                text = '- ' + html.unescape(line.get_attribute('innerHTML')) \
-                    .replace('<code>', '').replace('</code>', '').replace('<sup>', ' ^ ').replace('</sup>', '')
+                text = li_dash + transfer_html(line)
                 result.append(text + new_line)
             result[-1] += new_line
         else:
             if item.find_elements(By.TAG_NAME, 'code'):
-                text = html.unescape(item.get_attribute('innerHTML')) \
-                    .replace('<code>', '`').replace('</code>', '`').replace('<sup>', '^').replace('</sup>', '') \
-                    .replace('<strong>', '__').replace('</strong>', '__') \
-                    .replace('<em> ', ' _').replace(' </em>', '_ ') \
-                    .replace('<em>', '_').replace('</em>', '_').replace('^', ' ^ ')
+                text = transfer_html(item)
             else:
                 text = item.text.strip()
             if text.find('Constraints') != -1 or text.find('提示') != -1:
@@ -142,7 +154,7 @@ def code_content(language: str) -> str:
     
     # simulate keyboard actions
     cmd_ctrl = Keys.COMMAND if sys.platform == 'darwin' else Keys.CONTROL
-    ActionChains(browser).key_down(cmd_ctrl).send_keys("ac").perform()
+    ActionChains(browser).key_down(cmd_ctrl).send_keys('ac').perform()
     result = pyperclip.paste() + new_line
     return result
 
