@@ -12,10 +12,12 @@
 import sys
 import time
 from collections import deque
+import html
 
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -23,7 +25,7 @@ import pyperclip
 
 # Control the browser
 options = webdriver.EdgeOptions()
-options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+options.add_experimental_option('debuggerAddress', '127.0.0.1:9222')
 browser = webdriver.Edge(options=options)
 title = browser.title
 question_idx = title.split(r'.')[0]
@@ -34,33 +36,71 @@ description_button.click()
 time.sleep(1)
 
 
-def question_content() -> str:
+def transfer_html(element: WebElement) -> str:
     """
     
+    :param element: web element with text
+    :return: transferred text
+    """
+    return html.unescape(element.get_attribute('innerHTML')) \
+        .replace('\xa0', ' ') \
+        .replace('<sub>', '').replace('</sub>', '') \
+        .replace('<sup>', '^').replace('</sup>', '') \
+        .replace('<strong> ', ' __').replace('</strong> ', '__ ') \
+        .replace('<strong>', '__').replace('</strong>', '__') \
+        .replace('<em> ', ' _').replace(' </em>', '_ ') \
+        .replace('<em>', '_').replace('</em>', '_').replace('^', ' ^ ') \
+        .replace('<code>', '`').replace('</code>', '`') \
+        .strip()
+
+
+def question_content() -> str:
+    """
+
     :return: question description
     """
     global img_idx
     result = deque()
-    example_flag = True
+    example_flag = False
+    example_title_flag = True
+    hint_flag = False
     question = browser.find_element(By.XPATH, '//*[@id="question-detail-main-tabs"]/div[2]/div/div[2]/div/div')
-    question_list = question.find_elements(By.XPATH, ".//p | .//pre | .//ul | .//img")
+    question_list = question.find_elements(By.XPATH, './/p | .//pre | .//ul | .//img')
+    li_dash = '- '
     for item in question_list:
         if item.tag_name == 'img':
-            html = '![' + question_idx + '-' + str(img_idx) + '](' + item.get_attribute('src') + ')' + \
-                   new_line
+            img = '![' + question_idx + '-' + str(img_idx) + '](' + item.get_attribute('src') + ')' + \
+                  new_line
             img_idx += 1
-            result.append(html + new_line)
+            result.append(img + new_line)
+        elif item.tag_name == 'ul':
+            for line in item.find_elements(By.TAG_NAME, 'li'):
+                text = li_dash + transfer_html(line)
+                result.append(text + new_line)
+            result[-1] += new_line
         else:
-            text = item.text.strip()
+            if item.find_elements(By.TAG_NAME, 'code'):
+                text = transfer_html(item)
+            else:
+                text = item.text.replace('^', ' ^ ').strip()
             if text.find('Constraints') != -1 or text.find('提示') != -1:
                 text = '__' + text + '__'
-            if example_flag:
-                if text.find('Example') != -1:
+                hint_flag = False
+            if text.find('Example') != -1:
+                if example_title_flag:
                     text = '__Example:__' + new_line + new_line + text
-                    example_flag = False
-                if text.find('示例') != -1:
+                hint_flag = True
+                example_flag = True
+                example_title_flag = False
+            elif text.find('示例') != -1:
+                if example_title_flag:
                     text = '__示例:__' + new_line + new_line + text
-                    example_flag = False
+                hint_flag = True
+                example_flag = True
+                example_title_flag = False
+            elif text and text[0] != ' ' and example_flag and hint_flag:
+                text = '```text' + new_line + text + new_line + '```'
+                example_flag = False
             if not text or text[0] == ' ':
                 continue
             result.append(text + new_line + new_line)
@@ -90,7 +130,7 @@ chinese_content = question_content()
 
 def code_content(language: str) -> str:
     """
-    
+
     :param language: type of language
     :return: code of language
     """
@@ -107,7 +147,7 @@ def code_content(language: str) -> str:
     time.sleep(1)
     
     # find code area
-    code = WebDriverWait(browser, 5, 0.5).\
+    code = WebDriverWait(browser, 5, 0.5). \
         until(
         expected_conditions.
         visibility_of_element_located(
@@ -117,7 +157,7 @@ def code_content(language: str) -> str:
     
     # simulate keyboard actions
     cmd_ctrl = Keys.COMMAND if sys.platform == 'darwin' else Keys.CONTROL
-    ActionChains(browser).key_down(cmd_ctrl).send_keys("ac").perform()
+    ActionChains(browser).key_down(cmd_ctrl).send_keys('ac').perform()
     result = pyperclip.paste() + new_line
     return result
 
