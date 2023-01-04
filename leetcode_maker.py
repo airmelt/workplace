@@ -43,12 +43,15 @@ def transfer_html(element: WebElement) -> str:
     :return: transferred text
     """
     return html.unescape(element.get_attribute('innerHTML')) \
-        .replace('<code>', '`').replace('</code>', '`') \
+        .replace('\xa0', ' ') \
         .replace('<sub>', '').replace('</sub>', '') \
         .replace('<sup>', '^').replace('</sup>', '') \
+        .replace('<strong> ', ' __').replace('</strong> ', '__ ') \
         .replace('<strong>', '__').replace('</strong>', '__') \
         .replace('<em> ', ' _').replace(' </em>', '_ ') \
-        .replace('<em>', '_').replace('</em>', '_').replace('^', ' ^ ')
+        .replace('<em>', '_').replace('</em>', '_').replace('^', ' ^ ') \
+        .replace('<code>', '`').replace('</code>', '`') \
+        .strip()
 
 
 def question_content() -> str:
@@ -79,7 +82,7 @@ def question_content() -> str:
             if item.find_elements(By.TAG_NAME, 'code'):
                 text = transfer_html(item)
             else:
-                text = item.text.strip()
+                text = item.text.replace('^', ' ^ ').strip()
             if text.find('Constraints') != -1 or text.find('提示') != -1:
                 text = '__' + text + '__'
                 hint_flag = False
@@ -95,7 +98,7 @@ def question_content() -> str:
                 hint_flag = True
                 example_flag = True
                 example_title_flag = False
-            elif example_flag and hint_flag:
+            elif text and text[0] != ' ' and example_flag and hint_flag:
                 text = '```text' + new_line + text + new_line + '```'
                 example_flag = False
             if not text or text[0] == ' ':
