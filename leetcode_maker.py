@@ -46,7 +46,7 @@ def transfer_html(element: WebElement) -> str:
         .replace('\xa0', ' ') \
         .replace('<sub>', '').replace('</sub>', '') \
         .replace('<sup>', '^').replace('</sup>', '') \
-        .replace('<strong> ', ' __').replace('</strong> ', '__ ') \
+        .replace('<strong> ', ' __').replace(' </strong>', '__ ') \
         .replace('<strong>', '__').replace('</strong>', '__') \
         .replace('<em> ', ' _').replace(' </em>', '_ ') \
         .replace('<em>', '_').replace('</em>', '_').replace('^', ' ^ ') \
