@@ -1,0 +1,1295 @@
+<!-- iloveyou -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>抓住Q的心</title>
+    <style type="text/css" rel="stylesheet">
+        canvas#myCanvas,
+        canvas#heart {
+            background-color: rgba(255, 255, 255, 0);
+            display: none;
+        }
+
+        #art_board {
+            width: 1000px;
+            height: 650px;
+            border: 1px solid #EEE;
+            background-color: #EEE;
+            border-radius: 4px;
+            margin: auto;
+            position: relative;
+        }
+
+        button {
+            cursor: pointer;
+            border: 1px solid #98B421;
+            background: #333;
+            border-radius: 4px;
+            color: #EEE;
+            float: left;
+            margin-right: 5px;
+        }
+
+        p {
+            font-family: "microsoft yahei";
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            color: #FFF;
+        }
+
+        /*游戏计分*/
+        #gameBox {
+            float: left;
+            margin-left: 5px;
+            height: 15px;
+            padding: 3px 10px 2px;
+            background: #333;
+            border: 1px solid #98B421;
+            border-radius: 4px;
+            display: none;
+        }
+
+        #gameBox p {
+            font-size: 12px;
+            height: 15px;
+            line-height: 15px;
+        }
+
+        /*游戏提示*/
+        #gametips {
+            width: 1000px;
+            height: 650px;
+            background: rgba(50, 50, 50, 0.9);
+            border-radius: 8px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            display: none;
+            z-index: 10;
+        }
+
+        #gametips>p {
+            font-size: 24px;
+            color: #FFF;
+            margin: auto;
+            height: 500px;
+            line-height: 500px;
+            text-align: center;
+        }
+
+        #gametips button {
+            display: none;
+            float: none;
+            width: 120px;
+            height: 40px;
+            background: #111;
+            border-radius: 4px;
+            margin: 16px auto;
+        }
+
+        /*日历*/
+        div.calendar {
+            position: absolute;
+            left: 10px;
+            top: 30px;
+            width: 340px;
+            height: 280px;
+            border: 8px solid transparent;
+            border-radius: 28px;
+            transition-property: border, background;
+            transition-duration: 1s;
+            transition-timing-function: ease-out;
+            -webkit-transition-property: border, background;
+            -webkit-transition-duration: 1s;
+            -webkit-transition-timing-function: ease-out;
+            -moz-transition-property: border, background;
+            -moz-transition-duration: 1s;
+            -moz-transition-timing-function: ease-out;
+            -ms-transition-property: border, background;
+            -ms-transition-duration: 1s;
+            -ms-transition-timing-function: ease-out;
+        }
+
+        div.calendar:hover {
+            border: 8px solid #98BF21;
+            background: #DFE532;
+        }
+
+        .calendar a {
+            color: #DFE532;
+            position: absolute;
+        }
+
+        #t12 {
+            top: 36px;
+            left: 161px;
+        }
+
+        #t03 {
+            top: 131px;
+            right: 56px;
+        }
+
+        #t06 {
+            bottom: 36px;
+            right: 161px;
+        }
+
+        #t09 {
+            top: 131px;
+            left: 56px;
+        }
+
+        #today,
+        #together {
+            position: absolute;
+            margin: 0;
+            left: 10px;
+        }
+
+        #today {
+            top: 15px;
+        }
+
+        #together {
+            bottom: 15px;
+        }
+
+        .calendar p {
+            display: inline-block;
+            color: #EEE;
+        }
+
+        #hour {
+            width: 14px;
+            height: 36px;
+            background-color: #883F03;
+            position: absolute;
+            top: 104px;
+            left: 163px;
+            border-radius: 5px;
+            transform-origin: 7px 36px;
+        }
+
+        #min {
+            width: 10px;
+            height: 50px;
+            background-color: #98BF21;
+            position: absolute;
+            top: 90px;
+            left: 165px;
+            border-radius: 5px;
+            transform-origin: 5px 50px;
+        }
+
+        #sec {
+            width: 6px;
+            height: 80px;
+            background-color: #FFE545;
+            position: absolute;
+            top: 60px;
+            left: 167px;
+            border-radius: 3px;
+            transform-origin: 3px 80px;
+        }
+
+        /*画一辆车*/
+        #fm_carBody {
+            width: 380px;
+            height: 135px;
+            background-color: #F8E81C;
+            box-shadow: 1px 1px 4px 0px #98B421;
+            border-radius: 164px 195px 2px 2px;
+            position: absolute;
+            bottom: 80px;
+            left: -80px;
+        }
+
+        #fm_wheel_1,
+        #fm_wheel_2 {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-image: radial-gradient(40px, #888 0%, #555 100%);
+            background-image: -moz-radial-gradient(40px, #888 0%, #555 100%);
+            background-image: -webkit-radial-gradient(40px, #888 0%, #555 100%);
+            background-image: -ms-radial-gradient(40px, #888 0%, #555 100%);
+            box-shadow: 1px 1px 4px 0px #EEE;
+            border: 2px dashed #111;
+            position: absolute;
+            bottom: -40px;
+        }
+
+        #fm_wheel_1 {
+            left: 25px;
+        }
+
+        #fm_wheel_2 {
+            right: 25px;
+        }
+
+        #headLight {
+            width: 20px;
+            height: 30px;
+            border-radius: 50%;
+            background-image: linear-gradient(85deg, #DDD 0%, #EEE 20%, #FFF 100%);
+            background-image: -moz-linear-gradient(85deg, #DDD 0%, #EEE 20%, #FFF 100%);
+            background-image: -webkit-linear-gradient(85deg, #DDD 0%, #EEE 20%, #FFF 100%);
+            background-image: -ms-linear-gradient(85deg, #DDD 0%, #EEE 20%, #FFF 100%);
+            position: absolute;
+            bottom: 5px;
+            right: -6px;
+        }
+
+        /*可爱的大白*/
+        #baymax {
+            width: 115px;
+            height: 180px;
+            position: absolute;
+            left: 105px;
+            bottom: 40px;
+            background: #EEE;
+        }
+
+        img#myImg {
+            position: absolute;
+            left: -10px;
+            bottom: 0px;
+            border: 5px solid #EEE;
+            border-right: 4px solid #EEE;
+            border-radius: 6px;
+        }
+
+        /*气球*/
+        #balloons {
+            height: 630px;
+        }
+
+        .balloon,
+        #initball {
+            width: 86px;
+            height: 100px;
+            border-radius: 50%;
+            background: #DC5122;
+            box-shadow: 1px 1px 2px 2px #DC5122;
+            position: absolute;
+            left: 350px;
+            text-align: center;
+            line-height: 100px;
+            transform-origin: 43px 100px;
+            cursor: pointer;
+            transition: left 1s ease-out 0s;
+            -webkit-transition: left 1s ease-out 0s;
+            -moz-transition: left 1s ease-out 0s;
+            -ms-transition: left 1s ease-out 0s;
+            z-index: 1;
+        }
+
+        .balloon p span,
+        #initball p span {
+            color: #DFE532;
+            font-weight: bolder;
+            position: relative;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .balloon p {
+            position: relative;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .balloon img,
+        ,
+        #initball img {
+            position: absolute;
+            bottom: -36px;
+            left: 23px;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .pballoon {
+            z-index: 1000;
+        }
+
+        #gather {
+            width: 130px;
+            height: 600px;
+            background: rgba(100, 100, 100, 0.4);
+            border: 6px dotted #DFE532;
+            border-right: none;
+            border-radius: 100px 14px 14px 100px;
+            position: absolute;
+            bottom: 0px;
+            left: -140px;
+            display: none;
+        }
+
+        #gather>p {
+            margin: auto;
+            text-align: center;
+            padding-top: 280px;
+        }
+
+        /*祝福面板*/
+        #fm_wishes {
+            width: 350px;
+            height: 180px;
+            border: 4px dashed #98BF21;
+            background: #97A912;
+            border-radius: 8px;
+            position: absolute;
+            top: 40px;
+            left: 675px;
+            transform-origin: 175px 30px;
+        }
+
+        #fm_wishes>p {
+            font-family: "microsoft yahei";
+            font-size: 28px;
+            color: #FFF;
+            width: 325px;
+            margin: 20px auto;
+        }
+
+        #fm_wishes>p:last-child {
+            text-align: right;
+        }
+
+        /*声明动画*/
+        @keyframes car {
+            from {
+                transform: translateX(0px);
+            }
+
+            50% {
+                transform: translateX(500px);
+                /*车前进*/
+            }
+
+            80% {
+                transform: translateX(700px);
+            }
+
+            to {
+                transform: translateX(780px);
+            }
+        }
+
+        @keyframes wheels {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes balloon {
+            from {
+                transform: translateY(480px) scale(0.5) rotate(0deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -webkit-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -moz-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -ms-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                box-shadow: 1px 1px 2px 0px #DC5122;
+            }
+
+            40% {
+                transform: translateY(200px) scale(1.4) rotate(-16deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -webkit-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -moz-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -ms-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                box-shadow: 1px 1px 2px 1px #DFE532;
+            }
+
+            75% {
+                transform: translateY(60px) scale(1.8) rotate(10deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -webkit-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -moz-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -ms-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                box-shadow: 1px 1px 2px 2px #DFE532;
+            }
+
+            to {
+                transform: translateY(0px) scale(1.2) rotate(18deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -webkit-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -moz-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -ms-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                box-shadow: 1px 1px 2px 1px #DC5122;
+            }
+        }
+
+        @keyframes shake {
+            from {
+                transform: rotate(0deg);
+                border: 4px dashed #98BF21;
+            }
+
+            25% {
+                transform: rotate(25deg);
+                border: 4px dashed #F8E81C;
+            }
+
+            50% {
+                transform: rotate(0deg);
+                border: 4px dashed #FFF;
+            }
+
+            75% {
+                transform: rotate(-25deg);
+                border: 4px dashed #F8E81C;
+            }
+
+            to {
+                transform: rotate(0deg);
+                border: 4px dashed #98BF21;
+            }
+        }
+
+        /*兼容Chrome Safari*/
+        @-webkit-keyframes car {
+            from {
+                transform: translateX(0px);
+            }
+
+            50% {
+                transform: translateX(500px);
+            }
+
+            80% {
+                transform: translateX(700px);
+            }
+
+            to {
+                transform: translateX(780px);
+            }
+        }
+
+        @-webkit-keyframes wheels {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @-webkit-keyframes balloon {
+            from {
+                transform: translateY(480px) scale(0.5) rotate(0deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -webkit-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                box-shadow: 1px 1px 2px 0px #DC5122;
+            }
+
+            40% {
+                transform: translateY(200px) scale(1.4) rotate(-16deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -webkit-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                box-shadow: 1px 1px 2px 1px #DFE532;
+            }
+
+            75% {
+                transform: translateY(60px) scale(1.8) rotate(10deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -webkit-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                box-shadow: 1px 1px 2px 2px #DFE532;
+            }
+
+            to {
+                transform: translateY(0px) scale(1.2) rotate(18deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -webkit-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                box-shadow: 1px 1px 2px 1px #DC5122;
+            }
+        }
+
+        @-webkit-keyframes shake {
+            from {
+                transform: rotate(0deg);
+                border: 4px dashed #98BF21;
+            }
+
+            25% {
+                transform: rotate(25deg);
+                border: 4px dashed #F8E81C;
+            }
+
+            50% {
+                transform: rotate(0deg);
+                border: 4px dashed #FFF;
+            }
+
+            75% {
+                transform: rotate(-25deg);
+                border: 4px dashed #F8E81C;
+            }
+
+            to {
+                transform: rotate(0deg);
+                border: 4px dashed #98BF21;
+            }
+        }
+
+        /*兼容Firefox*/
+        @-moz-keyframes car {
+            from {
+                transform: translateX(0px);
+            }
+
+            50% {
+                transform: translateX(500px);
+            }
+
+            80% {
+                transform: translateX(700px);
+            }
+
+            to {
+                transform: translateX(780px);
+            }
+        }
+
+        @-moz-keyframes wheels {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @-moz-keyframes balloon {
+            from {
+                transform: translateY(480px) scale(0.5) rotate(0deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -moz-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                box-shadow: 1px 1px 2px 0px #DC5122;
+            }
+
+            40% {
+                transform: translateY(200px) scale(1.4) rotate(-16deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -moz-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                box-shadow: 1px 1px 2px 1px #DFE532;
+            }
+
+            75% {
+                transform: translateY(60px) scale(1.8) rotate(10deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -moz-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                box-shadow: 1px 1px 2px 2px #DFE532;
+            }
+
+            to {
+                transform: translateY(0px) scale(1.2) rotate(18deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -moz-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                box-shadow: 1px 1px 2px 1px #DC5122;
+            }
+        }
+
+        @-moz-keyframes shake {
+            from {
+                transform: rotate(0deg);
+                border: 4px dashed #98BF21;
+            }
+
+            25% {
+                transform: rotate(25deg);
+                border: 4px dashed #F8E81C;
+            }
+
+            50% {
+                transform: rotate(0deg);
+                border: 4px dashed #FFF;
+            }
+
+            75% {
+                transform: rotate(-25deg);
+                border: 4px dashed #F8E81C;
+            }
+
+            to {
+                transform: rotate(0deg);
+                border: 4px dashed #98BF21;
+            }
+        }
+
+        /*兼容IE*/
+        @-ms-keyframes car {
+            from {
+                transform: translateX(0px);
+            }
+
+            50% {
+                transform: translateX(500px);
+            }
+
+            80% {
+                transform: translateX(700px);
+            }
+
+            to {
+                transform: translateX(780px);
+            }
+        }
+
+        @-ms-keyframes wheels {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @-ms-keyframes balloon {
+            from {
+                transform: translateY(480px) scale(0.5) rotate(0deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -ms-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                box-shadow: 1px 1px 2px 0px #DC5122;
+            }
+
+            40% {
+                transform: translateY(200px) scale(1.4) rotate(-16deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -ms-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                box-shadow: 1px 1px 2px 1px #DFE532;
+            }
+
+            75% {
+                transform: translateY(60px) scale(1.8) rotate(10deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                background-image: -ms-radial-gradient(50px, #EEF 0%, #DFE532 100%);
+                box-shadow: 1px 1px 2px 2px #DFE532;
+            }
+
+            to {
+                transform: translateY(0px) scale(1.2) rotate(18deg);
+                background-image: radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                background-image: -ms-radial-gradient(50px, #EEF 0%, #DC5122 100%);
+                box-shadow: 1px 1px 2px 1px #DC5122;
+            }
+        }
+
+        @-ms-keyframes shake {
+            from {
+                transform: rotate(0deg);
+                border: 4px dashed #98BF21;
+            }
+
+            25% {
+                transform: rotate(25deg);
+                border: 4px dashed #F8E81C;
+            }
+
+            50% {
+                transform: rotate(0deg);
+                border: 4px dashed #FFF;
+            }
+
+            75% {
+                transform: rotate(-25deg);
+                border: 4px dashed #F8E81C;
+            }
+
+            to {
+                transform: rotate(0deg);
+                border: 4px dashed #98BF21;
+            }
+        }
+
+        /*调用动画*/
+        #fm_carBody {
+            animation: car 8s ease-in-out 0s infinite alternate;
+            animation-fill-mode: both;
+            -webkit-animation: car 8s ease-in-out 0s infinite alternate;
+            -webkit-animation-fill-mode: both;
+            -moz-animation: car 8s ease-in-out 0s infinite alternate;
+            -moz-animation-fill-mode: both;
+            -ms-animation: car 8s ease-in-out 0s infinite alternate;
+            -ms-animation-fill-mode: both;
+        }
+
+        #fm_wheel_1,
+        #fm_wheel_2 {
+            animation: wheels 8s linear 0s infinite alternate;
+            -webkit-animation: wheels 8s linear 0s infinite alternate;
+            -moz-animation: wheels 8s linear 0s infinite alternate;
+            -ms-animation: wheels 8s linear 0s infinite alternate;
+        }
+
+        .balloon,
+        #initball {
+            animation: balloon 5s ease-in 0s infinite normal;
+            animation-fill-mode: forwards;
+            -webkit-animation: balloon 5s ease-out 0s infinite normal;
+            -webkit-animation-fill-mode: forwards;
+            -moz-animation: balloon 5s ease-out 0s infinite normal;
+            -moz-animation-fill-mode: forwards;
+            -ms-animation: balloon 5s ease-out 0s infinite normal;
+            -ms-animation-fill-mode: forwards;
+        }
+
+        #fm_wishes {
+            animation: shake 2s linear 0s infinite normal;
+            -webkit-animation: shake 2s linear 0s infinite normal;
+            -moz-animation: shake 2s linear 0s infinite normal;
+            -ms-animation: shake 2s linear 0s infinite normal;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            calendar();
+            clockTimer = setInterval(calendar, 1000);
+            hideBalloon();
+            initBall.onclick = go;
+            cal.onmouseenter = calPanel;
+            cal.onmouseover = calPanel;
+            gameBtn.onclick = setGame;//游戏开始结束监听
+            balloonBox.onclick = gameCatch;
+        }
+        function pageReload() {
+            window.location.reload();
+        }
+        function animState(btn) {
+            if (btn.innerHTML == "停一停，让我看看你") {
+                for (var i = 0; i < aLen; i++) {
+                    anims[i].style.animationPlayState = "paused";
+                    anims[i].style.webkitAnimationPlayState = "paused";
+                    anims[i].style.mozAnimationPlayState = "paused";
+                    anims[i].style.msAnimationPlayState = "paused";
+                }
+                for (var i = 0; i < bLen; i++) {
+                    balloons[i].style.animationPlayState = "paused";
+                    balloons[i].style.webkitAnimationPlayState = "paused";
+                    balloons[i].style.mozAnimationPlayState = "paused";
+                    balloons[i].style.msAnimationPlayState = "paused";
+                }
+                initBall.style.animationPlayState = "paused";
+                initBall.style.webkitAnimationPlayState = "paused";
+                initBall.style.mozAnimationPlayState = "paused";
+                initBall.style.msAnimationPlayState = "paused";
+                window.clearInterval(balloonTimer);
+                balloonTimer = null;
+                state = false;
+                btn.innerHTML = "很棒，继续吧~";
+            } else {
+                for (var i = 0; i < aLen; i++) {
+                    anims[i].style.animationPlayState = "running";
+                    anims[i].style.webkitAnimationPlayState = "running";
+                    anims[i].style.mozAnimationPlayState = "running";
+                    anims[i].style.msAnimationPlayState = "running";
+                }
+                for (var i = 0; i < bLen; i++) {
+                    balloons[i].style.animationPlayState = "running";
+                    balloons[i].style.webkitAnimationPlayState = "running";
+                    balloons[i].style.mozAnimationPlayState = "running";
+                    balloons[i].style.msAnimationPlayState = "running";
+                }
+                initBall.style.animationPlayState = "running";
+                initBall.style.webkitAnimationPlayState = "running";
+                initBall.style.mozAnimationPlayState = "running";
+                initBall.style.msAnimationPlayState = "running";
+                state = true;
+                balloonTimer = window.setInterval(releaseBalloons, 5000);
+                btn.innerHTML = "停一停，让我看看你";
+            }
+        }
+        function setGame() {
+            if (game) {
+                gameBreak = true;
+                gameOver();
+            } else {
+                startGame();
+            }
+        }
+        function startGame() {
+            game = true;
+            gameBreak = false;
+            //改变按钮内容（停止）和背景颜色
+            gameBtn.innerHTML = "结束游戏";
+            gameBtn.style.background = "#DFE532";
+            //重置分数，呈现计分窗口
+            getN = 0, missN = 0, scoreN = 0, totalN = 0;
+            getD.innerHTML = getN;
+            scoreD.innerHTML = scoreN;
+            var degree = 6 - diff;//游戏级别
+            dg.innerHTML = degree;
+            gameBox.style.display = "block";
+            //呈现收集框
+            ballBox.style.display = "block";
+            //弹出游戏提示
+            gametip();
+            //设置游戏结束定时器
+            gameTimer = setTimeout(gameOver, 60000);
+        }
+        function gameOver() {
+            //计算分数
+            if (totalN == 0) {
+                scoreN = 0;
+            } else {
+                scoreN = getN / totalN;
+            }
+            missN = Math.max(totalN - getN, 0);
+            getD.innerHTML = getN;
+            scoreD.innerHTML = Math.floor(scoreN * 100) + "&nbsp;&nbsp;你错失了Q的" + missN + "个真心";
+            //修改游戏状态
+            game = false;
+            //隐藏收纳箱
+            ballBox.style.display = "none";
+            //改变按钮内容
+            gameBtn.innerHTML = "开始游戏";
+            gameBtn.style.background = "#000";
+            //清除定时器
+            clearTimeout(gameTimer);
+            gameTimer = null;
+            //弹出游戏提示
+            gametip();
+        }
+        function gameCatch() {
+            var e = window.event || arguments[0];
+            var target = e.srcElement || e.target;
+            if (state && game && target.className == "pballoon") {//须在游戏动态进行时点到红心才有效
+                //计分
+                getN++;
+                if (totalN == 0) {
+                    scoreN = 0;
+                } else {
+                    scoreN = getN / totalN;
+                }
+                getD.innerHTML = getN;
+                scoreD.innerHTML = Math.floor(scoreN * 100);
+                //气球进入收纳箱
+                if (target.tagName == "SPAN") {
+                    target.parentElement.parentElement.style.left = "-100px";
+                } else if (target.tagName == "IMG" || target.tagName == "P") {
+                    console.log(target.tagName, target.parentElement, target.innerHTML);
+                    target.parentElement.style.left = "-100px";
+                }
+            }
+        }
+        function gametip() {
+            gtip.style.display = "block";
+            if (game) {
+                gtext.innerHTML = "游戏马上开始，记住：抓住红心气球！";
+                tipTimer = setTimeout(closetip, 2000);
+            } else if (!game && !gameBreak && scoreN >= 0.5) {
+                gtext.innerHTML = "你的得分:" + Math.floor(scoreN * 100) + "^_^ 闯关成功！是否进入下一级？";
+                btns[0].style.display = "block";
+                btns[1].style.display = "block";
+                btns[0].onclick = shutup;
+                btns[1].onclick = upGrade;
+            } else {
+                gtext.innerHTML = "游戏结束！";
+                tipTimer = setTimeout(closetip, 2000);
+            }
+        }
+        function closetip() {
+            gtip.style.display = "none";
+            tipTimer = null;
+        }
+        function upGrade() {
+            if (diff > 2) {
+                diff--;
+                for (var i = 0; i < btns.length; i++) {
+                    btns[i].style.display = "none";
+                }
+                gtip.style.display = "none";
+                startGame();
+            } else {
+                gtext.innerHTML = "呃~你已是最高级^_^恭喜你成功俘获Q的心";
+                btns[1].style.display = "none";
+                btns[0].innerHTML = "关闭灰幕";
+            }
+
+        }
+        function shutup() {
+            gtip.style.display = "none";
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].style.display = "none";
+            }
+        }
+        /*author*/
+        console.log("Feb.14 2017,by Quinee Young");
+    </script>
+</head>
+
+<body>
+    <article>
+        <canvas id="myCanvas" height="600" width="600"></canvas>
+        <canvas id="heart" height="41" width="41"></canvas>
+        <div id="art_board">
+            <button id="btn" onclick="animState(this)">停一停，让我看看你</button>
+            <button onclick="pageReload()">开心重播</button>
+            <button id="gamebtn">开始游戏</button>
+            <div id="gameBox">
+                <p>难度级别:<span id="degree"></span>&nbsp;&nbsp;已抓住<span id="getCount"></span>个心&nbsp;&nbsp;
+                    得分:<span id="score"></span>
+                </p>
+            </div>
+            <div id="gather">
+                <p>balloon box</p>
+            </div>
+            <div class="calendar">
+                <div id="today">
+                    <p>岁月无声，今天已是</p>
+                    <p id="currDate"></p>
+                </div>
+                <div>
+                    <a id="t12">12</a>
+                    <a id="t03">3</a>
+                    <a id="t06">6</a>
+                    <a id="t09">9</a>
+                </div>
+                <div id="hour"></div>
+                <div id="min"></div>
+                <div id="sec"></div>
+                <div id="together">
+                    <p>一起</p>
+                    <p id="tDays"></p>
+                    <p>啦！陪伴是最长情的告白</p>
+                </div>
+            </div>
+            <!--car-->
+            <div id="fm_carBody">
+                <div id="headLight"></div>
+                <div id="fm_wheel_1"></div>
+                <div id="fm_wheel_2"></div>
+                <!--me-->
+                <div id="baymax">
+                    <img id="myImg" height="170" width="170">
+                </div>
+            </div>
+            <!--board-->
+            <div id="fm_wishes">
+                <p>dear Mr.X,</p>
+                <p>Best wishes for you !!</p>
+                <p>yours Q</p>
+            </div>
+            <!--balloon-->
+            <div id="balloons">
+                <div class="balloon">
+                    <p>暖<span>^_^</span>心</p>
+                </div>
+                <div class="balloon">
+                    <p>宝<span>^_^</span>爸</p>
+                </div>
+                <div class="balloon">
+                    <p>感<span>^_^</span>恩</p>
+                </div>
+                <div class="balloon">
+                    <p>陪<span>^_^</span>伴</p>
+                </div>
+                <div class="balloon">
+                    <p>爱<span>^_^</span>你</p>
+                </div>
+                <div id="initball">
+                    <p>ready?</p><img class="himg">
+                </div>
+            </div>
+            <div id="gametips">
+                <p></p>
+                <button onclick="shutup()">不，玩够了</button>
+                <button onclick="upgrade()">好，走起！</button>
+            </div>
+        </div>
+    </article>
+
+</body>
+<script type="text/javascript">
+    /*画Beymax*/
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var rotaD = Math.PI * 0.11;
+    var xScale = Math.cos(rotaD);
+    var ySkew = -Math.sin(rotaD);
+    var xSkew = Math.sin(rotaD);
+    var yScale = Math.cos(rotaD);
+    var xTrans = 0;
+    var yTrans = 50;
+    ctx.transform(xScale, ySkew, xSkew, yScale, xTrans, yTrans);
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    /*脸蛋*/
+    ctx.lineWidth = 12;
+    ctx.strokeStyle = "#494949";
+    ctx.fillStyle = "#FDFAEB";
+    ctx.transform(1, 0, 0, 0.73, 0, 60);
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetX = -2;
+    ctx.shadowOffsetY = 8;
+    ctx.shadowColor = "rgba(227,198,190,0.5)";
+    ctx.beginPath();
+    ctx.arc(300, 300, 160, 0, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    /*重置模糊效果*/
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    /*红晕*/
+    ctx.fillStyle = "#F6967C";
+    ctx.beginPath();
+    ctx.arc(200, 325, 16, 0, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(400, 325, 16, 0, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.fill();
+    /*眼睛*/
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.transform(xScale, ySkew, xSkew, yScale, xTrans, yTrans);
+    ctx.save();
+    ctx.fillStyle = "#000";
+    ctx.beginPath();
+    ctx.arc(230, 255, 25, 0, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(370, 255, 25, 0, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.fill();
+    /*眼睛连线*/
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#000";
+    ctx.beginPath();
+    ctx.moveTo(250, 260)
+    ctx.quadraticCurveTo(295, 299, 345, 260);
+    ctx.stroke();
+    /*身体*/
+    ctx.restore();
+    ctx.fillStyle = "#FDFAEB";
+    ctx.save();
+    ctx.globalCompositeOperation = "destination-over";
+    ctx.beginPath();
+    ctx.moveTo(25, 594)
+    ctx.bezierCurveTo(60, 210, 545, 205, 595, 800);
+    ctx.stroke();
+    ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+    /*胸部*/
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(148, 604)
+    ctx.quadraticCurveTo(300, 516, 462, 594);
+    ctx.stroke();
+    ctx.lineWidth = 4;
+    ctx.transform(1, 0, 0, 0.86, 0, 60);
+    ctx.beginPath();
+    ctx.arc(393, 486, 25, 0, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(405, 486, 13, 0, Math.PI * 1.14, true);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(382, 486, 13, Math.PI, Math.PI * 1.86, false);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.setTransform(0.85, 0, 0, 0.85, 20, 90);
+    ctx.lineWidth = 12;
+    /*手掌*/
+    ctx.beginPath();
+    ctx.moveTo(20, 600);
+    ctx.quadraticCurveTo(0, 525, 16, 450);
+    ctx.bezierCurveTo(5, 280, 75, 290, 94, 430);
+    ctx.bezierCurveTo(75, 215, 195, 210, 200, 400);
+    ctx.bezierCurveTo(155, 195, 265, 200, 280, 410);
+    ctx.quadraticCurveTo(300, 510, 280, 600);
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(220, 420);
+    ctx.bezierCurveTo(320, 230, 390, 375, 276, 480);
+    ctx.bezierCurveTo(280, 680, 0, 470, 220, 420);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    //将canvas的Beymax图像赋给myImg
+    var dataURL = canvas.toDataURL();
+    var beymax = document.getElementById("myImg");
+    myImg.src = dataURL;
+    //画红心
+    var heart = document.getElementById("heart");
+    var hctx = heart.getContext("2d");
+    hctx.fillStyle = "#DC5122";
+    hctx.strokeStyle = "#DFE532";
+    hctx.lineWidth = 1;
+    hctx.lineJoin = "round";
+    hctx.beginPath();
+    hctx.moveTo(21, 15);
+    hctx.bezierCurveTo(5, 0, -10, 20, 21, 37);
+    hctx.fill();
+    hctx.stroke();
+    hctx.beginPath();
+    hctx.moveTo(21, 15);
+    hctx.bezierCurveTo(37, 0, 52, 20, 21, 37);
+    hctx.fill();
+    hctx.stroke();
+    var hURL = heart.toDataURL();
+    var hImg = document.getElementsByClassName("himg")[0];
+    hImg.src = hURL;
+</script>
+<script type="text/javascript">
+    var ua = navigator.userAgent;
+    var balloonTimer = null, clockTimer = null, gameTimer = null, tipTimer = null;;
+    var state = true;
+
+    /*Calendar*/
+    var hPoint = document.getElementById("hour");
+    var mPoint = document.getElementById("min");
+    var sPoint = document.getElementById("sec");
+    var h, m, s;
+    function calendar() {
+        var now = new Date();
+        h = now.getHours();
+        m = now.getMinutes();
+        s = now.getSeconds();
+        if (h >= 12) {
+            h = h - 12;
+        }
+        hPoint.style.transform = "rotate(" + h * 30 + "deg)";
+        mPoint.style.transform = "rotate(" + m * 6 + "deg)";
+        sPoint.style.transform = "rotate(" + s * 6 + "deg)";
+        var tgDay = new Date("May 27,2010 16:00:00");
+        if (now > tgDay) {
+            var tms = now - tgDay;
+            var ts = tms / 1000;
+            var day = Math.floor(ts / (24 * 3600));
+            var countDay = day + "天"
+            document.getElementById("tDays").innerHTML = countDay;
+        }
+        document.getElementById("currDate").innerHTML = now.toDateString();
+    }
+
+    /*balloons*/
+    var balloonBox = document.getElementById("balloons");
+    var balloons = balloonBox.querySelectorAll(".balloon");
+    var bLen = balloons.length;
+    var initBall = document.getElementById("initball");
+    function releaseBalloons() {
+        for (var i = 0; i < bLen; i++) {
+            var lf = Math.max(Math.round(Math.random() * 870), 230);
+            balloons[i].style.left = lf + "px";
+            balloons[i].style.animationDelay = Math.round(Math.random() * 5) + "s";
+            balloons[i].style.animationDuration = Math.max(Math.round(Math.random() * 5), 3) + "s";
+            //兼容代码
+            balloons[i].style.webkitAnimationDelay = Math.round(Math.random() * 5) + "s";
+            balloons[i].style.webkitAnimationDuration = Math.max(Math.round(Math.random() * 5), 3) + "s";
+            balloons[i].style.mozAnimationDelay = Math.round(Math.random() * 5) + "s";
+            balloons[i].style.mozAnimationDuration = Math.max(Math.round(Math.random() * 5), 3) + "s";
+            balloons[i].style.msAnimationDelay = Math.round(Math.random() * 5) + "s";
+            balloons[i].style.msAnimationDuration = Math.max(Math.round(Math.random() * 5), 3) + "s";
+            /*对IE/Edge/Safari的特殊处理*/
+            if ((ua.indexOf("MSIE") != -1) ||
+                (ua.indexOf("Trident") != -1) ||
+                (ua.indexOf("Edge") != -1) ||
+                (ua.indexOf("Safari") != -1 && ua.indexOf("Chrome") == -1)) {
+                balloons[i].style.top = Math.round(Math.random() * (500)) + "px";
+            }
+            if (game && (lf % diff == 0)) {
+                balloons[i].innerHTML = balloons[i].innerHTML + '<img class="himg">';
+                hImg = balloons[i].querySelector("IMG");
+                hImg.src = hURL;
+                totalN++;
+                //console.log(totalN);
+                scoreN = getN / totalN;
+                scoreD.innerHTML = Math.floor(scoreN * 100);
+                balloons[i].querySelector("P").className = "pballoon";
+                balloons[i].querySelector("SPAN").className = "pballoon";
+                hImg.className = "pballoon";
+            } else if (!game || lf % diff) {
+                balloons[i].innerHTML = balloons[i].innerHTML.split("<img", 1);
+                balloons[i].querySelector("P").className = "";
+                balloons[i].querySelector("SPAN").className = "";
+            }
+        }
+    }
+    function hideBalloon() {
+        /*加载时先隐藏前面的ballons*/
+        for (var i = 0; i < bLen; i++) {
+            balloons[i].style.display = "none";
+        }
+    }
+
+    function go() {
+        for (var i = 0; i < bLen; i++) {
+            balloons[i].style.display = "block";
+        }
+        initBall.style.display = "none";
+        releaseBalloons();
+        if (state) {
+            balloonTimer = window.setInterval(releaseBalloons, 5000);
+        }
+    }
+    /*日历面板的区域*/
+    var cal = document.getElementsByClassName("calendar")[0];
+    var calL = cal.offsetLeft;
+    var calWidth = cal.offsetWidth;
+    var calR = calL + calWidth;
+    var calC = calL + calWidth / 2;
+    var bw = 86; bScaleMax = 1.8;
+    var bWidth = Math.ceil(bw * bScaleMax);
+    function calPanel() {
+        if (balloonTimer != null || state == false) {
+            /*获取balloons的位置和大小*/
+            for (var i = 0; i < bLen; i++) {
+                var ballL = balloons[i].offsetLeft;
+                var ballR = ballL + bWidth;
+                var ballC = ballL + bWidth / 2;
+                if (ballL < calR && ballC > calC) {//在日历面板右半区域内，向右移出
+                    balloons[i].style.left = calR + Math.round(Math.random() * 300) + "px";
+                } else if (ballR > calL && ballC < calC) {//在日历面板左半区域内，向左移出
+                    balloons[i].style.left = calL - Math.round(Math.random() * 300) + "px";
+                } else {//已在外面，也随机左右移动一下
+                    balloons[i].style.left = ballL + Math.round(Math.sin(Math.random() * 10) * 20) + "px";
+                }
+            }
+        } else {
+            initBall.innerHTML = '<p>点<span>^_^</span>我</p><img class="himg">';
+            hImg = document.getElementsByClassName("himg")[0];
+            hImg.src = hURL;
+        }
+    }
+    /*other animation objects*/
+    var board = document.getElementById("art_board");
+    var anims = board.querySelectorAll("DIV[id^=fm_]");
+    var aLen = anims.length;
+    /*game*/
+    var game = false;
+    var gameBtn = document.getElementById("gamebtn");
+    var ballBox = document.getElementById("gather");
+    var gameBox = document.getElementById("gameBox");
+    var btext = gameBox.querySelector("P");
+    var getD = document.getElementById("getCount");
+    var scoreD = document.getElementById("score");
+    var dg = document.getElementById("degree");
+    var getN, scoreN, totalN, missN;
+    var gtip = document.getElementById("gametips");
+    var gtext = gtip.querySelector("P");
+    var btns = gtip.querySelectorAll("BUTTON");
+    var diff = 5;//难度系数2~5，数字越大越容易
+    var gameBreak = false;//是否人为中断游戏
+</script>
+
+</html>
