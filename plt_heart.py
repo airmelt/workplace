@@ -14,9 +14,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-# workaround for 'MatplotlibDeprecationWarning'
-matplotlib.use('TkAgg')
-
 
 def draw_heart():
     # 生成 1000 个范围在 [0, 2π] 的点

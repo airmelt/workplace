@@ -46,11 +46,23 @@ def transfer_html(element: WebElement) -> str:
         .replace('\xa0', ' ') \
         .replace('<sub>', '').replace('</sub>', '') \
         .replace('<sup>', '^').replace('</sup>', '') \
+        .replace('<strong> </strong>', ' ') \
         .replace('<strong> ', ' __').replace(' </strong>', '__ ') \
         .replace('<strong>', '__').replace('</strong>', '__') \
+        .replace('<em> </em>', ' ') \
         .replace('<em> ', ' _').replace(' </em>', '_ ') \
         .replace('<em>', '_').replace('</em>', '_').replace('^', ' ^ ') \
-        .replace('<code>', '`').replace('</code>', '`') \
+        .replace('<code> ', ' `').replace(' </code>', '` ') \
+        .replace('<code>', ' `').replace('</code>', '`') \
+        .replace('<i> ', ' _').replace(' </i>', '_ ') \
+        .replace('<i>', '_').replace('</i>', '_') \
+        .replace('<b>', ' _').replace('</b>', '_ ') \
+        .replace('<b> ', ' _').replace(' </b>', '_ ') \
+        .replace('<p> ', ' ').replace(' </p>', ' ') \
+        .replace('<var> ', ' ').replace(' </var>', ' ') \
+        .replace('_ `', '_`').replace('<br>', '\n\n') \
+        .replace('  ', ' ').replace('：', ':') \
+        .replace('<font face="monospace">', '').replace('</font>', '') \
         .strip()
 
 
