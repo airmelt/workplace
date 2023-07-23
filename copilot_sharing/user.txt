@@ -1,0 +1,4 @@
+用户名: user.name
+用户 id: user.id
+用户年龄: user.age
+用户职业: user.career
