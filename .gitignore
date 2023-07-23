@@ -125,3 +125,5 @@ main.py
 *.sql
 *.csv
 *.png
+*.mp4
+*.mp3
