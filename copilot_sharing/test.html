@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <title>Test</title>
+    <style>
+        .test {
+            width: 100px;
+            height: 100px;
+            background-color: orange;
+            /* shadow */
+            box-shadow: 10px 10px 5px grey;
+
+        }
+
+        .hello {
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            background-color: red;
+            /* long text ellipsis */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hello {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(5px, 0);
+            }
+
+            50% {
+                transform: translate(0, 0);
+            }
+
+            75% {
+                transform: translate(-5px, 0);
+            }
+
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test">Test</div>
+    <div class="hello">Hello World!</div>
+</body>
+
+</html>
