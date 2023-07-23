@@ -56,6 +56,9 @@ def transfer_html(element: WebElement) -> str:
         .replace('<code>', ' `').replace('</code>', '`') \
         .replace('<i> ', ' _').replace(' </i>', '_ ') \
         .replace('<i>', '_').replace('</i>', '_') \
+        .replace('<ul>', '').replace('</ul>', '') \
+        .replace('<li>', '-').replace('</li>', '') \
+        .replace('<u>', '').replace('</u>', '') \
         .replace('<b>', ' _').replace('</b>', '_ ') \
         .replace('<b> ', ' _').replace(' </b>', '_ ') \
         .replace('<p> ', ' ').replace(' </p>', ' ') \
@@ -76,7 +79,7 @@ def question_content() -> str:
     example_flag = False
     example_title_flag = True
     hint_flag = False
-    question = browser.find_element(By.XPATH, '//*[@id="question-detail-main-tabs"]/div[2]/div/div[2]/div/div')
+    question = browser.find_element(By.XPATH, '//*[@id="question-detail-main-tabs"]/div[2]/div/div[2]/div/div[2]')
     question_list = question.find_elements(By.XPATH, './/p | .//pre | .//ul | .//img')
     li_dash = '- '
     for item in question_list:
@@ -112,6 +115,7 @@ def question_content() -> str:
                 example_title_flag = False
             elif text and text[0] != ' ' and example_flag and hint_flag:
                 text = '```text' + new_line + text + new_line + '```'
+                text = text.replace(':__', ': ').replace('__', '')
                 example_flag = False
             if not text or text[0] == ' ':
                 continue
@@ -120,10 +124,13 @@ def question_content() -> str:
 
 
 # find language switch button
-lang_button = browser.find_element(By.XPATH, '//*[@id="question-detail-main-tabs"]/div[2]/div/div[1]/div/button[4]')
-cur_lang = lang_button.text
-if cur_lang == '切换为英文':
-    lang_button.click()
+lang_pop_button = browser.find_element(By.XPATH, '//*[@id="lc-home"]/div/div[1]/div/nav/div/div[1]/div')
+lang_pop_button.click()
+pop_div = browser.find_element(By.CLASS_NAME, 'popper-container')
+time.sleep(1)
+english_button = pop_div.find_element(By.XPATH, 'div/div/div[2]')
+english_button.click()
+lang_pop_button.click()
 time.sleep(1)
 
 # title content
@@ -135,7 +142,11 @@ title = english_title + ' ' + ''.join(title.split()[1:])
 # question content
 english_content = question_content()
 
-lang_button.click()
+lang_pop_button.click()
+time.sleep(1)
+chinese_button = pop_div.find_element(By.XPATH, 'div/div/div[1]')
+chinese_button.click()
+lang_pop_button.click()
 time.sleep(1)
 chinese_content = question_content()
 
