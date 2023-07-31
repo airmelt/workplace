@@ -31,7 +31,7 @@ title = browser.title
 question_idx = title.split(r'.')[0]
 img_idx = 1
 new_line = '\n'
-description_button = browser.find_element(By.XPATH, '//*[@id="question-detail-main-tabs"]/div[1]/div/div[1]/a')
+description_button = browser.find_element(By.XPATH, '//*[@id="qd-content"]/div[1]/div/div/div/div[1]/div/div/a[1]')
 description_button.click()
 time.sleep(1)
 
@@ -79,7 +79,7 @@ def question_content() -> str:
     example_flag = False
     example_title_flag = True
     hint_flag = False
-    question = browser.find_element(By.XPATH, '//*[@id="question-detail-main-tabs"]/div[2]/div/div[2]/div/div[2]')
+    question = browser.find_element(By.XPATH, '//*[@id="qd-content"]/div[1]/div/div/div/div[2]/div/div/div[3]')
     question_list = question.find_elements(By.XPATH, './/p | .//pre | .//ul | .//img')
     li_dash = '- '
     for item in question_list:
@@ -124,17 +124,21 @@ def question_content() -> str:
 
 
 # find language switch button
-lang_pop_button = browser.find_element(By.XPATH, '//*[@id="lc-home"]/div/div[1]/div/nav/div/div[1]/div')
+lang_pop_button = browser.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]'
+                                                 '/div/div/div[1]/div/div[1]/div[2]/div/div[2]/div/div')
 lang_pop_button.click()
-pop_div = browser.find_element(By.CLASS_NAME, 'popper-container')
+pop_div = browser.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div'
+                                         '/div[1]/div/div[1]/div[2]/div/div[2]/div/div[2]')
 time.sleep(1)
-english_button = pop_div.find_element(By.XPATH, 'div/div/div[2]')
-english_button.click()
+english_button = pop_div.find_element(By.XPATH, 'div[1]/div/div[1]')
+if english_button.text == '切换为英文':
+    english_button.click()
 lang_pop_button.click()
 time.sleep(1)
 
 # title content
-english_title = browser.find_element(By.XPATH, '//*[@id="question-detail-main-tabs"]/div[2]/div/div[1]/h4/a').text
+english_title = browser.find_element(By.XPATH, '//*[@id="qd-content"]/div[1]/div/div/div/div[2]/div/div/div[1]/div/'
+                                               'div[1]/div[1]/div/a').text
 english_title = ''.join(english_title.split(r'.'))
 title = ''.join(title.split(r' -')[:-1])
 title = english_title + ' ' + ''.join(title.split()[1:])
@@ -144,7 +148,9 @@ english_content = question_content()
 
 lang_pop_button.click()
 time.sleep(1)
-chinese_button = pop_div.find_element(By.XPATH, 'div/div/div[1]')
+pop_div = browser.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div'
+                                         '/div[1]/div/div[1]/div[2]/div/div[2]/div/div[2]')
+chinese_button = pop_div.find_element(By.XPATH, 'div[1]/div/div[1]')
 chinese_button.click()
 lang_pop_button.click()
 time.sleep(1)
@@ -158,12 +164,13 @@ def code_content(language: str) -> str:
     :return: code of language
     """
     # find program switch button
-    program_button = browser.find_element(By.XPATH, '//*[@id="lang-select"]')
+    program_button = browser.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[3]/div/div[1]/div/div'
+                                                    '/div/div[2]/div[1]/div[1]/div/button')
     program_button.click()
     program_list = WebDriverWait(browser, 5, 0.5).until(
-        expected_conditions.presence_of_element_located((By.XPATH,
-                                                         '/html/body/div[@class="popper-container"]/div/div')))
-    for item in program_list.find_elements(By.TAG_NAME, 'span'):
+        expected_conditions.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[3]/div/'
+                                                                   'div[1]/div/div/div/div[2]/div[1]/div[1]/div/ul')))
+    for item in program_list.find_elements(By.TAG_NAME, 'li'):
         if item.text == language:
             item.click()
             break
@@ -174,8 +181,8 @@ def code_content(language: str) -> str:
         until(
         expected_conditions.
         visibility_of_element_located(
-            (By.XPATH, '//*[@id="lc-home"]/div/div[2]/div[1]/div/div[3]/div[1]/div[1]/div[1]/div[2]/div/div[6]'
-                       '/div[1]/div/div/div/div[5]')))
+            (By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[3]/div/div[1]/div/div/div/div[3]'
+                       '/div[1]/div/div/div[1]/div[2]/div[1]/div[4]')))
     code.click()
     
     # simulate keyboard actions
