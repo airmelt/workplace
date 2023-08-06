@@ -141,7 +141,7 @@ english_title = browser.find_element(By.XPATH, '//*[@id="qd-content"]/div[1]/div
                                                'div[1]/div[1]/div/a').text
 english_title = ''.join(english_title.split(r'.'))
 title = ''.join(title.split(r' -')[:-1])
-title = english_title + ' ' + ''.join(title.split()[1:])
+title = english_title + ''.join(title.split(r'.')[1:])
 
 # question content
 english_content = question_content()
