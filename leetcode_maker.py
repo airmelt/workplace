@@ -27,13 +27,13 @@ import pyperclip
 options = webdriver.EdgeOptions()
 options.add_experimental_option('debuggerAddress', '127.0.0.1:9222')
 browser = webdriver.Edge(options=options)
+description_button = browser.find_element(By.XPATH, '//*[@id="qd-content"]/div[1]/div/div/div/div[1]/div/div/a[1]')
+description_button.click()
+time.sleep(1)
 title = browser.title
 question_idx = title.split(r'.')[0]
 img_idx = 1
 new_line = '\n'
-description_button = browser.find_element(By.XPATH, '//*[@id="qd-content"]/div[1]/div/div/div/div[1]/div/div/a[1]')
-description_button.click()
-time.sleep(1)
 
 
 def transfer_html(element: WebElement) -> str:
@@ -124,13 +124,13 @@ def question_content() -> str:
 
 
 # find language switch button
-lang_pop_button = browser.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]'
-                                                 '/div/div/div[1]/div/div[1]/div[2]/div/div[2]/div/div')
+lang_pop_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div/div/div[1]/div/div/div/div[2]'
+                                                 '/div/div/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]/div/div')
 lang_pop_button.click()
-pop_div = browser.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div'
-                                         '/div[1]/div/div[1]/div[2]/div/div[2]/div/div[2]')
+pop_div = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div/div/div[1]/div/div/div/div[2]/div'
+                                         '/div/div[1]/div/div[1]/div[2]/div/div[2]/div/div[2]')
 time.sleep(1)
-english_button = pop_div.find_element(By.XPATH, 'div[1]/div/div[1]')
+english_button = pop_div.find_element(By.XPATH, 'div/div/div/div/div[1]')
 if english_button.text == '切换为英文':
     english_button.click()
 lang_pop_button.click()
@@ -148,9 +148,7 @@ english_content = question_content()
 
 lang_pop_button.click()
 time.sleep(1)
-pop_div = browser.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div'
-                                         '/div[1]/div/div[1]/div[2]/div/div[2]/div/div[2]')
-chinese_button = pop_div.find_element(By.XPATH, 'div[1]/div/div[1]')
+chinese_button = pop_div.find_element(By.XPATH, 'div/div/div/div/div[1]')
 chinese_button.click()
 lang_pop_button.click()
 time.sleep(1)
