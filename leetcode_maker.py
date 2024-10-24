@@ -27,8 +27,9 @@ import pyperclip
 options = webdriver.EdgeOptions()
 options.add_experimental_option('debuggerAddress', '127.0.0.1:9222')
 browser = webdriver.Edge(options=options)
-description_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[2]/div/div/div[1]'
+description_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[1]'
                                                     '/div[1]/div[1]/div/div[1]')
+
 description_button.click()
 time.sleep(1)
 title = browser.title
@@ -39,7 +40,7 @@ new_line = '\n'
 
 def transfer_html(element: WebElement) -> str:
     """
-    
+
     :param element: web element with text
     :return: transferred text
     """
@@ -80,7 +81,7 @@ def question_content() -> str:
     example_flag = False
     example_title_flag = True
     hint_flag = False
-    question = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[2]/div/div/div[4]/div/div[1]'
+    question = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[4]/div/div[1]'
                                               '/div[3]')
     question_list = question.find_elements(By.XPATH, './/p | .//pre | .//ul | .//img')
     li_dash = '- '
@@ -126,7 +127,7 @@ def question_content() -> str:
 
 
 # find language switch button
-lang_pop_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[2]/div/div/div[4]/div/'
+lang_pop_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[4]/div/'
                                                  'div[1]/div[2]/div[5]/div')
 lang_pop_button.click()
 # pop_div = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div/div/div[1]/div/div/div/div[2]/div'
@@ -139,7 +140,7 @@ lang_pop_button.click()
 time.sleep(1)
 
 # title content
-english_title = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[2]/div/div/div[4]/div/div[1]'
+english_title = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[4]/div/div[1]'
                                                '/div[1]/div[1]/div/a').text
 english_title = ''.join(english_title.split(r'.'))
 title = ''.join(title.split(r' -')[:-1])
@@ -164,13 +165,13 @@ def code_content(language: str) -> str:
     :return: code of language
     """
     # find program switch button
-    program_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[2]/div/div/div[7]'
+    program_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[7]'
                                                     '/div/div[1]/div[1]/div[1]/div/div/div[1]/div/button')
     program_button.click()
     program_list = WebDriverWait(browser, 5, 0.5).until(
-        expected_conditions.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[2]/div/div/div[2]/div/div'
-                                                                   '/div[7]/div/div[1]/div[1]/div[1]/div/div/div[2]/div'
-                                                                   '/div/div/div[1]')))
+        expected_conditions.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/'
+                                                                   'div[7]/div/div[1]/div[1]/div[1]/div/div/div[2]/'
+                                                                   'div/div/div/div[1]')))
     for item in program_list.find_elements(By.TAG_NAME, 'div'):
         if item.text == language:
             item.click()
@@ -182,8 +183,8 @@ def code_content(language: str) -> str:
         until(
         expected_conditions.
         visibility_of_element_located(
-            (By.XPATH, '/html/body/div[1]/div[2]/div/div/div[2]/div/div/div[7]/div/div[2]/div[1]/div/div/div[1]/div[2]'
-                       '/div[1]/div[4]')))
+            (By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[7]/div/div[2]/div[1]/div/div/div[1]/'
+                       'div[2]')))
     code.click()
     
     # simulate keyboard actions
