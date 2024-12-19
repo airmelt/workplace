@@ -1,0 +1,3 @@
+[submodule "Riot/vct-ai-manager"]
+    path = Riot/vct-ai-manager
+    url = https://github.com/airmelt/Roit/vct-ai-manager.git
