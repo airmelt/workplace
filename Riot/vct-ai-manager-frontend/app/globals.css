@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --foreground-rgb: 255, 255, 255;
+    --background-rgb: 18, 18, 18;
+}
+
+body {
+    color: rgb(var(--foreground-rgb));
+    background-color: rgb(var(--background-rgb));
+}
+
+@layer base {
+    body {
+        @apply text-light-gray;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-montserrat font-bold;
+    }
+}
+
+@layer components {
+    .btn {
+        @apply px-4 py-2 rounded font-bold transition duration-300;
+    }
+
+    .btn-primary {
+        @apply bg-teal text-white hover:bg-deep-blue;
+    }
+}
