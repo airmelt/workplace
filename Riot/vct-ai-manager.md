@@ -7,7 +7,6 @@ Esports Manager Challenge for VCT is a front-end web application that allows use
 2. Core Features
 
 A Chat interface
-
 - This interface can be similar to ChatGPT
 - Allow users to chat with AI
 - Application will send request to the back-end which will built on AWS bedrock and we will implement in another application then, now we can use a mock API implementation
