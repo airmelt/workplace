@@ -1,0 +1,602 @@
+{
+    "美国": {
+        "deploy_site": "udp",
+        "region_id": "211",
+        "name": "United States",
+        "site_id": "100"
+    },
+    "波多黎各": {
+        "deploy_site": "udp",
+        "region_id": "164",
+        "name": "Puerto Rico",
+        "site_id": "100"
+    },
+    "北马里亚纳群岛联邦": {
+        "deploy_site": "udp",
+        "region_id": "236",
+        "name": "Northern Mariana Islands",
+        "site_id": "100"
+    },
+    "美属维京群岛": {
+        "deploy_site": "udp",
+        "region_id": "219",
+        "name": "Virgin Islands (U.S.)",
+        "site_id": "100"
+    },
+    "关岛": {
+        "deploy_site": "udp",
+        "region_id": "83",
+        "name": "Guam",
+        "site_id": "100"
+    },
+    "加拿大": {
+        "deploy_site": "glo",
+        "region_id": "37",
+        "name": "Canada",
+        "site_id": "101"
+    },
+    "澳大利亚": {
+        "deploy_site": "glo",
+        "region_id": "12",
+        "name": "Australia",
+        "site_id": "103"
+    },
+    "新西兰": {
+        "deploy_site": "glo",
+        "region_id": "144",
+        "name": "New Zealand",
+        "site_id": "104"
+    },
+    "墨西哥": {
+        "deploy_site": "glo",
+        "region_id": "128",
+        "name": "Mexico",
+        "site_id": "110"
+    },
+    "日本": {
+        "deploy_site": "glo",
+        "region_id": "100",
+        "name": "Japan",
+        "site_id": "118"
+    },
+    "韩国": {
+        "deploy_site": "glo",
+        "region_id": "185",
+        "name": "Republic of Korea",
+        "site_id": "119"
+    },
+    "智利": {
+        "deploy_site": "glo",
+        "region_id": "42",
+        "name": "Chile",
+        "site_id": "125"
+    },
+    "马来西亚": {
+        "deploy_site": "glo",
+        "region_id": "119",
+        "name": "Malaysia",
+        "site_id": "126"
+    },
+    "菲律宾": {
+        "deploy_site": "glo",
+        "region_id": "160",
+        "name": "Philippines",
+        "site_id": "127"
+    },
+    "泰国": {
+        "deploy_site": "glo",
+        "region_id": "197",
+        "name": "Thailand",
+        "site_id": "129"
+    },
+    "巴西": {
+        "deploy_site": "glo",
+        "region_id": "29",
+        "name": "Brazil",
+        "site_id": "132"
+    },
+    "秘鲁": {
+        "deploy_site": "glo",
+        "region_id": "159",
+        "name": "Peru",
+        "site_id": "163"
+    },
+    "哥伦比亚": {
+        "deploy_site": "glo",
+        "region_id": "45",
+        "name": "Colombia",
+        "site_id": "164"
+    },
+    "乌拉圭": {
+        "deploy_site": "glo",
+        "region_id": "212",
+        "name": "Uruguay",
+        "site_id": "169"
+    },
+    "多米尼加": {
+        "deploy_site": "glo",
+        "region_id": "57",
+        "name": "Dominican Republic",
+        "site_id": "172"
+    },
+    "哥斯达黎加": {
+        "deploy_site": "glo",
+        "region_id": "49",
+        "name": "Costa Rica",
+        "site_id": "173"
+    },
+    "巴拿马": {
+        "deploy_site": "glo",
+        "region_id": "156",
+        "name": "Panama",
+        "site_id": "176"
+    },
+    "厄瓜多尔": {
+        "deploy_site": "glo",
+        "region_id": "59",
+        "name": "Ecuador",
+        "site_id": "178"
+    },
+    "特立尼达和多巴哥": {
+        "deploy_site": "glo",
+        "region_id": "201",
+        "name": "Trinidad and Tobago",
+        "site_id": "179"
+    },
+    "危地马拉": {
+        "deploy_site": "glo",
+        "region_id": "84",
+        "name": "Guatemala",
+        "site_id": "180"
+    },
+    "洪都拉斯": {
+        "deploy_site": "glo",
+        "region_id": "89",
+        "name": "Honduras",
+        "site_id": "182"
+    },
+    "萨尔瓦多": {
+        "deploy_site": "glo",
+        "region_id": "61",
+        "name": "El Salvador",
+        "site_id": "183"
+    },
+    "越南": {
+        "deploy_site": "glo",
+        "region_id": "217",
+        "name": "Vietnam",
+        "site_id": "187"
+    },
+    "文莱": {
+        "deploy_site": "glo",
+        "region_id": "31",
+        "name": "Brunei Darussalam",
+        "site_id": "188"
+    },
+    "阿根廷": {
+        "deploy_site": "glo",
+        "region_id": "9",
+        "name": "Argentina",
+        "site_id": "189"
+    },
+    "巴拉圭": {
+        "deploy_site": "glo",
+        "region_id": "158",
+        "name": "Paraguay",
+        "site_id": "200"
+    },
+    "牙买加": {
+        "deploy_site": "glo",
+        "region_id": "99",
+        "name": "Jamaica",
+        "site_id": "202"
+    },
+    "柬埔寨": {
+        "deploy_site": "glo",
+        "region_id": "35",
+        "name": "Cambodia",
+        "site_id": "191"
+    },
+    "英国": {
+        "deploy_site": "eu",
+        "region_id": "210",
+        "name": "United Kingdom",
+        "site_id": "102"
+    },
+    "德国": {
+        "deploy_site": "eu",
+        "region_id": "76",
+        "name": "Germany",
+        "site_id": "105"
+    },
+    "法国": {
+        "deploy_site": "eu",
+        "region_id": "69",
+        "name": "France",
+        "site_id": "106"
+    },
+    "意大利": {
+        "deploy_site": "eu",
+        "region_id": "98",
+        "name": "Italy",
+        "site_id": "107"
+    },
+    "荷兰": {
+        "deploy_site": "eu",
+        "region_id": "141",
+        "name": "Netherlands",
+        "site_id": "108"
+    },
+    "西班牙": {
+        "deploy_site": "eu",
+        "region_id": "186",
+        "name": "Spain",
+        "site_id": "109"
+    },
+    "葡萄牙": {
+        "deploy_site": "eu",
+        "region_id": "163",
+        "name": "Portugal",
+        "site_id": "111"
+    },
+    "波兰": {
+        "deploy_site": "eu",
+        "region_id": "162",
+        "name": "Poland",
+        "site_id": "112"
+    },
+    "瑞典": {
+        "deploy_site": "eu",
+        "region_id": "191",
+        "name": "Sweden",
+        "site_id": "113"
+    },
+    "瑞士": {
+        "deploy_site": "eu",
+        "region_id": "192",
+        "name": "Switzerland",
+        "site_id": "114"
+    },
+    "希腊": {
+        "deploy_site": "eu",
+        "region_id": "79",
+        "name": "Greece",
+        "site_id": "115"
+    },
+    "爱尔兰": {
+        "deploy_site": "eu",
+        "region_id": "96",
+        "name": "Ireland",
+        "site_id": "116"
+    },
+    "塞浦路斯": {
+        "deploy_site": "eu",
+        "region_id": "52",
+        "name": "Cyprus",
+        "site_id": "117"
+    },
+    "沙特阿拉伯": {
+        "deploy_site": "eu",
+        "region_id": "174",
+        "name": "Saudi Arabia",
+        "site_id": "120"
+    },
+    "阿联酋": {
+        "deploy_site": "eu",
+        "region_id": "209",
+        "name": "United Arab Emirates",
+        "site_id": "122"
+    },
+    "科威特": {
+        "deploy_site": "eu",
+        "region_id": "105",
+        "name": "Kuwait",
+        "site_id": "123"
+    },
+    "挪威": {
+        "deploy_site": "eu",
+        "region_id": "151",
+        "name": "Norway",
+        "site_id": "124"
+    },
+    "卡塔尔": {
+        "deploy_site": "eu",
+        "region_id": "165",
+        "name": "Qatar",
+        "site_id": "130"
+    },
+    "约旦": {
+        "deploy_site": "eu",
+        "region_id": "101",
+        "name": "Jordan",
+        "site_id": "131"
+    },
+    "阿曼": {
+        "deploy_site": "eu",
+        "region_id": "152",
+        "name": "Oman",
+        "site_id": "133"
+    },
+    "巴林": {
+        "deploy_site": "eu",
+        "region_id": "16",
+        "name": "Bahrain",
+        "site_id": "134"
+    },
+    "以色列": {
+        "deploy_site": "eu",
+        "region_id": "97",
+        "name": "Israel",
+        "site_id": "135"
+    },
+    "南非": {
+        "deploy_site": "eu",
+        "region_id": "184",
+        "name": "South Africa",
+        "site_id": "136"
+    },
+    "捷克": {
+        "deploy_site": "eu",
+        "region_id": "53",
+        "name": "Czech Republic",
+        "site_id": "137"
+    },
+    "匈牙利": {
+        "deploy_site": "eu",
+        "region_id": "90",
+        "name": "Hungary",
+        "site_id": "138"
+    },
+    "丹麦": {
+        "deploy_site": "eu",
+        "region_id": "54",
+        "name": "Denmark",
+        "site_id": "139"
+    },
+    "罗马尼亚": {
+        "deploy_site": "eu",
+        "region_id": "167",
+        "name": "Romania",
+        "site_id": "140"
+    },
+    "保加利亚": {
+        "deploy_site": "eu",
+        "region_id": "32",
+        "name": "Bulgaria",
+        "site_id": "141"
+    },
+    "比利时": {
+        "deploy_site": "eu",
+        "region_id": "20",
+        "name": "Belgium",
+        "site_id": "142"
+    },
+    "奥地利": {
+        "deploy_site": "eu",
+        "region_id": "13",
+        "name": "Austria",
+        "site_id": "143"
+    },
+    "芬兰": {
+        "deploy_site": "eu",
+        "region_id": "68",
+        "name": "Finland",
+        "site_id": "144"
+    },
+    "斯洛伐克": {
+        "deploy_site": "eu",
+        "region_id": "180",
+        "name": "Slovakia",
+        "site_id": "145"
+    },
+    "克罗地亚": {
+        "deploy_site": "eu",
+        "region_id": "50",
+        "name": "Croatia",
+        "site_id": "146"
+    },
+    "斯洛文尼亚": {
+        "deploy_site": "eu",
+        "region_id": "181",
+        "name": "Slovenia",
+        "site_id": "147"
+    },
+    "立陶宛": {
+        "deploy_site": "eu",
+        "region_id": "113",
+        "name": "Lithuania",
+        "site_id": "148"
+    },
+    "爱沙尼亚": {
+        "deploy_site": "eu",
+        "region_id": "64",
+        "name": "Estonia",
+        "site_id": "149"
+    },
+    "拉脱维亚": {
+        "deploy_site": "eu",
+        "region_id": "108",
+        "name": "Latvia",
+        "site_id": "150"
+    },
+    "马耳他": {
+        "deploy_site": "eu",
+        "region_id": "122",
+        "name": "Malta",
+        "site_id": "151"
+    },
+    "卢森堡": {
+        "deploy_site": "eu",
+        "region_id": "114",
+        "name": "Luxembourg",
+        "site_id": "152"
+    },
+    "塞尔维亚": {
+        "deploy_site": "eu",
+        "region_id": "175",
+        "name": "Serbia",
+        "site_id": "153"
+    },
+    "摩尔多瓦": {
+        "deploy_site": "eu",
+        "region_id": "130",
+        "name": "Moldova",
+        "site_id": "154"
+    },
+    "黑山": {
+        "deploy_site": "eu",
+        "region_id": "134",
+        "name": "Montenegro",
+        "site_id": "155"
+    },
+    "冰岛": {
+        "deploy_site": "eu",
+        "region_id": "91",
+        "name": "Iceland",
+        "site_id": "156"
+    },
+    "安道尔": {
+        "deploy_site": "eu",
+        "region_id": "5",
+        "name": "Andorra",
+        "site_id": "157"
+    },
+    "波黑": {
+        "deploy_site": "eu",
+        "region_id": "26",
+        "name": "Bosnia and Herzegovina",
+        "site_id": "158"
+    },
+    "阿尔巴尼亚": {
+        "deploy_site": "eu",
+        "region_id": "3",
+        "name": "Albania",
+        "site_id": "159"
+    },
+    "哈萨克斯坦": {
+        "deploy_site": "eu",
+        "region_id": "102",
+        "name": "Kazakhstan",
+        "site_id": "162"
+    },
+    "格鲁吉亚": {
+        "deploy_site": "eu",
+        "region_id": "75",
+        "name": "Georgia",
+        "site_id": "165"
+    },
+    "亚美尼亚": {
+        "deploy_site": "eu",
+        "region_id": "10",
+        "name": "Armenia",
+        "site_id": "166"
+    },
+    "阿塞拜疆": {
+        "deploy_site": "eu",
+        "region_id": "14",
+        "name": "Azerbaijan",
+        "site_id": "167"
+    },
+    "乌克兰": {
+        "deploy_site": "eu",
+        "region_id": "208",
+        "name": "Ukraine",
+        "site_id": "168"
+    },
+    "毛里求斯": {
+        "deploy_site": "eu",
+        "region_id": "126",
+        "name": "Mauritius",
+        "site_id": "170"
+    },
+    "摩洛哥": {
+        "deploy_site": "eu",
+        "region_id": "135",
+        "name": "Morocco",
+        "site_id": "171"
+    },
+    "土耳其": {
+        "deploy_site": "eu",
+        "region_id": "203",
+        "name": "Türkiye",
+        "site_id": "174"
+    },
+    "阿尔及利亚": {
+        "deploy_site": "eu",
+        "region_id": "4",
+        "name": "Algeria",
+        "site_id": "175"
+    },
+    "乌兹别克斯坦": {
+        "deploy_site": "eu",
+        "region_id": "213",
+        "name": "Uzbekistan",
+        "site_id": "181"
+    },
+    "巴基斯坦": {
+        "deploy_site": "eu",
+        "region_id": "153",
+        "name": "Pakistan",
+        "site_id": "184"
+    },
+    "斯里兰卡": {
+        "deploy_site": "eu",
+        "region_id": "187",
+        "name": "Sri Lanka",
+        "site_id": "185"
+    },
+    "蒙古": {
+        "deploy_site": "eu",
+        "region_id": "132",
+        "name": "Mongolia",
+        "site_id": "186"
+    },
+    "尼日利亚": {
+        "deploy_site": "eu",
+        "region_id": "147",
+        "name": "Nigeria",
+        "site_id": "190"
+    },
+    "北马其顿": {
+        "deploy_site": "eu",
+        "region_id": "116",
+        "name": "North Macedonia",
+        "site_id": "192"
+    },
+    "吉尔吉斯斯坦": {
+        "deploy_site": "eu",
+        "region_id": "106",
+        "name": "Kyrgyzstan",
+        "site_id": "194"
+    },
+    "马尔代夫": {
+        "deploy_site": "eu",
+        "region_id": "120",
+        "name": "Maldives",
+        "site_id": "196"
+    },
+    "列支敦士登": {
+        "deploy_site": "eu",
+        "region_id": "112",
+        "name": "Liechtenstein",
+        "site_id": "197"
+    },
+    "加纳": {
+        "deploy_site": "eu",
+        "region_id": "77",
+        "name": "Ghana",
+        "site_id": "198"
+    },
+    "埃及": {
+        "deploy_site": "eu",
+        "region_id": "60",
+        "name": "Egypt",
+        "site_id": "199"
+    },
+    "摩纳哥": {
+        "deploy_site": "eu",
+        "region_id": "131",
+        "name": "Monaco",
+        "site_id": "204"
+    }
+}
