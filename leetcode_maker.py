@@ -27,8 +27,7 @@ import pyperclip
 options = webdriver.EdgeOptions()
 options.add_experimental_option('debuggerAddress', '127.0.0.1:9222')
 browser = webdriver.Edge(options=options)
-description_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[1]'
-                                                    '/div[1]/div[1]/div/div[1]')
+description_button = browser.find_element(By.ID, "description_tab")
 
 description_button.click()
 time.sleep(1)
@@ -81,8 +80,7 @@ def question_content() -> str:
     example_flag = False
     example_title_flag = True
     hint_flag = False
-    question = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[4]/div/div[1]'
-                                              '/div[3]')
+    question = browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/div/div[6]/div/div/div[4]/div/div[1]/div[3]/div')
     question_list = question.find_elements(By.XPATH, './/p | .//pre | .//ul | .//img')
     li_dash = '- '
     for item in question_list:
@@ -127,8 +125,7 @@ def question_content() -> str:
 
 
 # find language switch button
-lang_pop_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[4]/div/'
-                                                 'div[1]/div[2]/div[5]/div')
+lang_pop_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/div/div[6]/div/div/div[4]/div/div[1]/div[2]/div[5]/div')
 lang_pop_button.click()
 # pop_div = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div/div/div[1]/div/div/div/div[2]/div'
 #                                          '/div/div[1]/div/div[1]/div[2]/div/div[2]/div/div[2]')
@@ -140,8 +137,7 @@ lang_pop_button.click()
 time.sleep(1)
 
 # title content
-english_title = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[4]/div/div[1]'
-                                               '/div[1]/div[1]/div/a').text
+english_title = browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div/div/div[6]/div/div/div[4]/div/div[1]/div[1]/div[1]/div/a').text
 english_title = ''.join(english_title.split(r'.'))
 title = ''.join(title.split(r' -')[:-1])
 title = english_title + ''.join(title.split(r'.')[1:])
@@ -165,13 +161,10 @@ def code_content(language: str) -> str:
     :return: code of language
     """
     # find program switch button
-    program_button = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[7]'
-                                                    '/div/div[1]/div[1]/div[1]/div/div/div[1]/div/button')
+    program_button = browser.find_element(By.XPATH, '//*[@id="editor"]/div[1]/div[1]/div[1]/button')
     program_button.click()
     program_list = WebDriverWait(browser, 5, 0.5).until(
-        expected_conditions.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/'
-                                                                   'div[7]/div/div[1]/div[1]/div[1]/div/div/div[2]/'
-                                                                   'div/div/div/div[1]')))
+        expected_conditions.presence_of_element_located((By.XPATH, '/html/body/div[9]/div/div/div[1]')))
     for item in program_list.find_elements(By.TAG_NAME, 'div'):
         if item.text == language:
             item.click()
@@ -183,8 +176,7 @@ def code_content(language: str) -> str:
         until(
         expected_conditions.
         visibility_of_element_located(
-            (By.XPATH, '/html/body/div[1]/div[2]/div/div/div[5]/div/div/div[7]/div/div[2]/div[1]/div/div/div[1]/'
-                       'div[2]')))
+            (By.XPATH, '//*[@id="editor"]/div[2]/div[1]/div/div/div[1]/div[2]/div[1]/div[5]')))
     code.click()
     
     # simulate keyboard actions
@@ -199,7 +191,13 @@ language_dict = dict()
 for lang in language_tag_list:
     language_dict[lang] = code_content(lang)
 
-markdown_file = '/Users/air/Documents/workplace/LeetCode/#' + title + '.md'
+problem_index = int(title[:title.find(' ')])
+THOUSAND = 1000
+ONE = 1
+markdown_file = ((f'/Users/air/Documents/workplace/LeetCode/'
+                 f'{(problem_index - ONE) // THOUSAND * THOUSAND + ONE}-'
+                 f'{(problem_index + THOUSAND - ONE) // THOUSAND * THOUSAND}/#')
+                 + title + '.md')
 with open(markdown_file, 'a', encoding='utf-8') as f:
     f.write('# ' + title + new_line + new_line)
     f.write('__Description:__' + new_line + new_line)
